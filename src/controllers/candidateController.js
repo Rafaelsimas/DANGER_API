@@ -11,7 +11,7 @@ exports.createCandidate = async (req, res) => {
     const existing = await Candidate.findOne({ tel })
 
     if (existing) {
-      return res.status(400).json({ message: "Telefone já cadastrado" })
+      return res.status(400).json({ message: "Candidato já cadastrado" })
     }
 
     const candidate = await Candidate.create({
