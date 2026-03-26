@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const { createCandidate } = require('../controllers/candidateController');
+const express = require("express")
+const router = express.Router()
+const { createCandidate } = require("../controllers/candidateController")
 
-router.post('/candidates', createCandidate);
+router.post("/", createCandidate)
 
-module.exports = router;
+module.exports = router

@@ -1,12 +1,17 @@
 const mongoose = require("mongoose")
 
+let isConnected = false
+
 const connectDB = async () => {
+  if (isConnected) return
+
   try {
-    await mongoose.connect(process.env.MONGO_URI)
-    console.log("🔥 MongoDB conectado com sucesso")
+    const db = await mongoose.connect(process.env.MONGO_URI)
+    isConnected = db.connections[0].readyState
+    console.log("🔥 MongoDB conectado (Vercel)")
   } catch (error) {
-    console.error("❌ ERRO REAL DO MONGO:", error)
-    process.exit(1)
+    console.error("❌ ERRO MONGO:", error)
+    throw error
   }
 }
 

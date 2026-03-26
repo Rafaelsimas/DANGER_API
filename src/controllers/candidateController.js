@@ -1,6 +1,6 @@
 const Candidate = require("../models/Candidate")
 
-exports.createCandidate = async (req, res, next) => {
+exports.createCandidate = async (req, res) => {
   try {
     const { fullName, artisticName, address, tel, age } = req.body
 
@@ -8,12 +8,10 @@ exports.createCandidate = async (req, res, next) => {
       return res.status(400).json({ message: "Preencha todos os campos" })
     }
 
-    const existingCandidate = await Candidate.findOne({ tel })
+    const existing = await Candidate.findOne({ tel })
 
-    if (existingCandidate) {
-      return res
-        .status(400)
-        .json({ message: "Candidato já cadastrado com este telefone" })
+    if (existing) {
+      return res.status(400).json({ message: "Telefone já cadastrado" })
     }
 
     const candidate = await Candidate.create({
@@ -29,6 +27,7 @@ exports.createCandidate = async (req, res, next) => {
       data: candidate,
     })
   } catch (error) {
-    next(error)
+    console.error(error)
+    return res.status(500).json({ message: "Erro interno do servidor" })
   }
 }
